@@ -29,4 +29,28 @@ public class PostingTest {
         assertEquals("Amount cannot be a negative value: USD -500", exception.getMessage());
 
     }
+
+    @Test
+    public void accountCannotBeNullValue() {
+        NullPointerException exception = assertThrows(NullPointerException.class, () ->
+                new Posting(null, new Money(USD, 500), DEBIT)
+        );
+        assertEquals("Account cannot be null", exception.getMessage());
+    }
+
+    @Test
+    public void amountCannotBeNullValue() {
+        NullPointerException exception = assertThrows(NullPointerException.class, () ->
+                new Posting("BOB", null, DEBIT)
+        );
+        assertEquals("Amount cannot be null", exception.getMessage());
+    }
+
+    @Test
+    public void directionCannotBeNullValue() {
+        NullPointerException exception = assertThrows(NullPointerException.class, () ->
+                new Posting("BOB", new Money(USD, 500), null)
+        );
+        assertEquals("Direction cannot be null", exception.getMessage());
+    }
 }
