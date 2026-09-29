@@ -24,19 +24,11 @@ public class MoneyTest {
         Money valueOne = new Money(USD, 500);
         Money valueTwo = new Money(JPY, 700);
 
-        assertThrows(
-                MismatchedCurrencyException.class, () ->
-                valueOne.add(valueTwo),
-                "Currencies do not match - USD and JPY"
-        );
+        assertThrows(MismatchedCurrencyException.class, () -> valueOne.add(valueTwo));
     }
 
     @Test
     public void currencyCannotBeNull() {
-        assertThrows(
-                NullPointerException.class, () ->
-                new Money(null, 500),
-                "Currency cannot be null"
-        );
+        assertThrows(NullPointerException.class, () -> new Money(null, 500));
     }
 }

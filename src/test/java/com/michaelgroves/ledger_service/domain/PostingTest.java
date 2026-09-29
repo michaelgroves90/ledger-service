@@ -5,17 +5,28 @@ import org.junit.jupiter.api.Test;
 
 import static com.michaelgroves.ledger_service.domain.Currency.USD;
 import static com.michaelgroves.ledger_service.domain.Direction.DEBIT;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class PostingTest {
 
     @Test
-    public void amountMustBeGreaterThanZero() {
-        assertThrows(
+    public void throwExceptionWhenAmountIsZero() {
+        InvalidPostingException exception = assertThrows(
                 InvalidPostingException.class, () ->
-                new Posting("id", new Money(USD, 0), DEBIT),
-                "Amount must be greater than zero - USD 0"
+                        new Posting("id", new Money(USD, 0), DEBIT)
         );
+        assertEquals("Amount must be greater than zero: USD 0", exception.getMessage());
+
+    }
+
+    @Test
+    public void throwExceptionWhenAmountIsNegative() {
+        InvalidPostingException exception = assertThrows(
+                InvalidPostingException.class, () ->
+                        new Posting("id", new Money(USD, -500), DEBIT)
+        );
+        assertEquals("Amount cannot be a negative value: USD -500", exception.getMessage());
 
     }
 }
