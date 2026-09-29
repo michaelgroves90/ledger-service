@@ -28,4 +28,11 @@ public class MoneyTest {
                valueOne.add(valueTwo)
         );
     }
+
+    @Test
+    public void currencyCannotBeNull() {
+        assertThrows(NullPointerException.class, () ->
+                new Money(null, 500));
+
+    }
 }
