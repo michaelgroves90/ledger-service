@@ -3,6 +3,8 @@ package com.michaelgroves.ledger_service.domain;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import com.michaelgroves.ledger_service.exceptions.UnbalancedEntryException;
 
 public class NewEntryTest {
@@ -24,11 +26,8 @@ public class NewEntryTest {
         int debit = 450;
         int fees = 0;
         int credit = 350;
-        try {
-            newEntry.balance(debit, fees, credit);
-        } catch (UnbalancedEntryException e) {
-            assertEquals("Not Balanced", e.getMessage());
-        }
+        assertThrows(UnbalancedEntryException.class, () ->
+                newEntry.balance(debit, fees, credit));
     }
 
 

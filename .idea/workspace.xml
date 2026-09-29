@@ -5,15 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="86fc4903-d887-4c8a-a22d-70cd3220a473" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/michaelgroves/ledger_service/domain/NewEntry.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/michaelgroves/ledger_service/exceptions/UnbalancedEntryException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/com/michaelgroves/ledger_service/domain/NewEntryTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/michaelgroves/ledger_service/LedgerServiceApplication.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/michaelgroves/ledger_service/LedgerServiceApplication.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/createdFiles.lst" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/inputFiles.lst" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/test-classes/com/michaelgroves/ledger_service/TestLedgerServiceApplication.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/com/michaelgroves/ledger_service/TestLedgerServiceApplication.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/michaelgroves/ledger_service/domain/NewEntryTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/michaelgroves/ledger_service/domain/NewEntryTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/TEST-com.michaelgroves.ledger_service.LedgerServiceApplicationTests.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/surefire-reports/TEST-com.michaelgroves.ledger_service.LedgerServiceApplicationTests.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/com.michaelgroves.ledger_service.LedgerServiceApplicationTests.txt" beforeDir="false" afterPath="$PROJECT_DIR$/target/surefire-reports/com.michaelgroves.ledger_service.LedgerServiceApplicationTests.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
