@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-import static com.michaelgroves.ledger_service.domain.Currency.USD;
+import static com.michaelgroves.ledger_service.domain.Currency.*;
 import static com.michaelgroves.ledger_service.domain.Direction.CREDIT;
 import static com.michaelgroves.ledger_service.domain.Direction.DEBIT;
 import static org.junit.jupiter.api.Assertions.*;
@@ -21,7 +21,7 @@ public class JournalEntryTest {
         Posting postingTwo = new Posting("sales", creditAmount, CREDIT);
 
         UnbalancedEntryException result = assertThrows(UnbalancedEntryException.class, () -> new JournalEntry(List.of(postingOne, postingTwo)));
-        assertEquals("Entry is unbalanced - Debits: 1000 do not equal Credits: 900", result.getMessage());
+        assertEquals("Entry is unbalanced in USD - Debits: 1000 do not equal Credits: 900", result.getMessage());
 
     }
 
@@ -40,7 +40,31 @@ public class JournalEntryTest {
 
     }
 
+    @Test
+    public void rejectsEntryWhenACurrencyDoesNotBalance() {
 
+        Money debitAmount = new Money(USD, 1000);
+        Money creditAmount = new Money(JPY, 1000);
+        Posting postingDebit = new Posting("cash", debitAmount, DEBIT);
+        Posting postingCredit = new Posting("sales", creditAmount, CREDIT);
+
+        UnbalancedEntryException result = assertThrows(UnbalancedEntryException.class, () -> new JournalEntry(List.of(postingDebit, postingCredit)));
+        assertEquals("Entry is unbalanced in USD - Debits: 1000 do not equal Credits: 0", result.getMessage());
+
+    }
+
+    @Test
+    public void rejectsEntryWhenACurrencyDoesNotBalanceGBP() {
+
+        Money debitAmount = new Money(GBP, 1000);
+        Money creditAmount = new Money(JPY, 1000);
+        Posting postingDebit = new Posting("cash", debitAmount, DEBIT);
+        Posting postingCredit = new Posting("sales", creditAmount, CREDIT);
+
+        UnbalancedEntryException result = assertThrows(UnbalancedEntryException.class, () -> new JournalEntry(List.of(postingDebit, postingCredit)));
+        assertEquals("Entry is unbalanced in GBP - Debits: 1000 do not equal Credits: 0", result.getMessage());
+
+    }
 
 
 }
