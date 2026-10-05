@@ -29,6 +29,8 @@ public class MoneyTest {
 
     @Test
     public void currencyCannotBeNull() {
-        assertThrows(NullPointerException.class, () -> new Money(null, 500));
+        NullPointerException exception = assertThrows(NullPointerException.class, () ->
+                new Money(null, 500));
+        assertEquals("Currency cannot be null", exception.getMessage());
     }
 }
