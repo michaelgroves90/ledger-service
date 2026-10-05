@@ -4,6 +4,7 @@ import com.michaelgroves.ledger_service.exceptions.InvalidEntryException;
 import com.michaelgroves.ledger_service.exceptions.UnbalancedEntryException;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.michaelgroves.ledger_service.domain.Currency.*;
@@ -100,5 +101,41 @@ public class JournalEntryTest {
         assertEquals("Entry has no postings", result.getMessage());
 
     }
+
+    @Test
+    public void changingTheOriginalListDoesNotChangeTheEntry() {
+
+        Money debitAmount = new Money(GBP, 1000);
+        Money creditAmount = new Money(GBP, 1000);
+        Posting postingDebit = new Posting("cash", debitAmount, DEBIT);
+        Posting postingCredit = new Posting("sales", creditAmount, CREDIT);
+
+        ArrayList<Posting> postings = new ArrayList<>();
+        postings.add(postingDebit);
+        postings.add(postingCredit);
+        JournalEntry journalEntry = new JournalEntry(postings);
+        postings.add(postingDebit);
+
+        assertEquals(2, journalEntry.postings().size());
+
+    }
+
+    @Test
+    public void postingsFromTheEntryCannotBeModified() {
+        Money debitAmount = new Money(GBP, 1000);
+        Money creditAmount = new Money(GBP, 1000);
+        Posting postingDebit = new Posting("cash", debitAmount, DEBIT);
+        Posting postingCredit = new Posting("sales", creditAmount, CREDIT);
+
+        ArrayList<Posting> postings = new ArrayList<>();
+        postings.add(postingDebit);
+        postings.add(postingCredit);
+        JournalEntry journalEntry = new JournalEntry(postings);
+
+        assertThrows(UnsupportedOperationException.class, () -> journalEntry.postings().add(postingDebit));
+
+    }
+
+
 
 }

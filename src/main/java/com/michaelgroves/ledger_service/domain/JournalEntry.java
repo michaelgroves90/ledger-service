@@ -16,6 +16,8 @@ public record JournalEntry(List<Posting> postings) {
 
         Objects.requireNonNull(postings, "Postings cannot be null");
 
+        postings = List.copyOf(postings);
+
         if (postings.isEmpty()) {
             throw new InvalidEntryException("Entry has no postings");
         }
