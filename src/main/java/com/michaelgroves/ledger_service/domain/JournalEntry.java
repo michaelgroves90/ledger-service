@@ -1,5 +1,6 @@
 package com.michaelgroves.ledger_service.domain;
 
+import com.michaelgroves.ledger_service.exceptions.InvalidEntryException;
 import com.michaelgroves.ledger_service.exceptions.UnbalancedEntryException;
 
 import java.util.HashMap;
@@ -11,6 +12,10 @@ import static com.michaelgroves.ledger_service.domain.Direction.DEBIT;
 public record JournalEntry(List<Posting> postings) {
 
     public JournalEntry {
+
+        if (postings.isEmpty()) {
+            throw new InvalidEntryException("Entry has no postings");
+        }
 
         Map<Currency, Long> debits = new HashMap<>();
         Map<Currency, Long> credits = new HashMap<>();

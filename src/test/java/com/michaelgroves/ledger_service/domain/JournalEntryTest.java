@@ -1,5 +1,6 @@
 package com.michaelgroves.ledger_service.domain;
 
+import com.michaelgroves.ledger_service.exceptions.InvalidEntryException;
 import com.michaelgroves.ledger_service.exceptions.UnbalancedEntryException;
 import org.junit.jupiter.api.Test;
 
@@ -41,6 +42,24 @@ public class JournalEntryTest {
     }
 
     @Test
+    public void acceptsEntryWithMultipleCurrenciesThatBalance() {
+
+        Money debitAmountGBP = new Money(GBP, 1000);
+        Money creditAmountGBP = new Money(GBP, 1000);
+        Money debitAmountJPY = new Money(JPY, 15000);
+        Money creditAmountJPY = new Money(JPY, 15000);
+
+        Posting postingDebitGBP = new Posting("cash", debitAmountGBP, DEBIT);
+        Posting postingCreditGBP = new Posting("sales", creditAmountGBP, CREDIT);
+        Posting postingDebitJPY = new Posting("cash", debitAmountJPY, DEBIT);
+        Posting postingCreditJPY = new Posting("sales", creditAmountJPY, CREDIT);
+
+        JournalEntry journalEntry = new JournalEntry(List.of(postingDebitGBP, postingCreditGBP,  postingDebitJPY,  postingCreditJPY));
+        assertEquals(4, journalEntry.postings().size());
+
+    }
+
+    @Test
     public void rejectsEntryWhenACurrencyDoesNotBalance() {
 
         Money debitAmount = new Money(USD, 1000);
@@ -66,5 +85,12 @@ public class JournalEntryTest {
 
     }
 
+    @Test
+    public void anEntryMustHavePostings() {
+
+        InvalidEntryException result = assertThrows(InvalidEntryException.class, () -> new JournalEntry(List.of()));
+        assertEquals("Entry has no postings", result.getMessage());
+
+    }
 
 }
