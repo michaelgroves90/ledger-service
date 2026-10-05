@@ -36,7 +36,7 @@ public class AccountTest {
     @ValueSource(strings = {"Cash", "cash at bank", "cash/usd", "-sales", "sales-", "sales--usd", ""} )
     void invalidIDsAreRejected(String id) {
         InvalidAccountException exception = assertThrows(InvalidAccountException.class, () -> new Account(id, ASSET));
-        assertEquals(exception.getMessage(), String.format("Invalid ID: %s - Use lowercase letters and digits, words separated by single hyphens", id));
+        assertEquals(String.format("Invalid ID: '%s' - Use lowercase letters and digits, words separated by single hyphens", id), exception.getMessage());
     }
 
 }
