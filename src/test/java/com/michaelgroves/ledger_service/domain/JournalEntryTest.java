@@ -14,6 +14,14 @@ import static org.junit.jupiter.api.Assertions.*;
 public class JournalEntryTest {
 
     @Test
+    public void postingsCannotBeNullValue() {
+        NullPointerException exception = assertThrows(NullPointerException.class, () ->
+                new JournalEntry(null)
+        );
+        assertEquals("Postings cannot be null", exception.getMessage());
+    }
+
+    @Test
     public void rejectsEntryWhenDebitsAndCreditsDiffer() {
 
         Money debitAmount = new Money(USD, 1000);
