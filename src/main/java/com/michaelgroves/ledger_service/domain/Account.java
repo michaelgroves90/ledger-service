@@ -13,7 +13,7 @@ public record Account(String id, AccountType accountType) {
         Objects.requireNonNull(id, "ID cannot be null");
         Objects.requireNonNull(accountType, "Account Type cannot be null");
         if(!ID_FORMAT.matcher(id).matches()) {
-            throw new InvalidAccountException(String.format("Invalid ID: %s - Use lowercase letters and digits, words separated by single hyphens", id));
+            throw new InvalidAccountException(String.format("Invalid ID: '%s' - Use lowercase letters and digits, words separated by single hyphens", id));
         }
     }
 
