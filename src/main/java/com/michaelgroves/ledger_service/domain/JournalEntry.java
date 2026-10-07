@@ -10,13 +10,18 @@ import java.util.Objects;
 
 import static com.michaelgroves.ledger_service.domain.Direction.DEBIT;
 
-public record JournalEntry(List<Posting> postings) {
+public record JournalEntry(String description, List<Posting> postings) {
 
     public JournalEntry {
 
+        Objects.requireNonNull(description, "Description cannot be null");
         Objects.requireNonNull(postings, "Postings cannot be null");
 
         postings = List.copyOf(postings);
+
+        if (description.isBlank()) {
+            throw new InvalidEntryException("Description cannot be blank");
+        }
 
         if (postings.isEmpty()) {
             throw new InvalidEntryException("Entry has no postings");

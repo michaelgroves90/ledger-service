@@ -17,9 +17,37 @@ public class JournalEntryTest {
     @Test
     public void postingsCannotBeNullValue() {
         NullPointerException exception = assertThrows(NullPointerException.class, () ->
-                new JournalEntry(null)
+                new JournalEntry("test description",null)
         );
         assertEquals("Postings cannot be null", exception.getMessage());
+    }
+
+    @Test
+    public void descriptionCannotBeNullValue() {
+
+        Money debitAmount = new Money(USD, 1000);
+        Money creditAmount = new Money(USD, 1000);
+        Posting postingOne = new Posting("cash", debitAmount, DEBIT);
+        Posting postingTwo = new Posting("sales", creditAmount, CREDIT);
+
+        NullPointerException exception = assertThrows(NullPointerException.class, () ->
+                new JournalEntry(null, List.of(postingOne, postingTwo))
+        );
+        assertEquals("Description cannot be null", exception.getMessage());
+    }
+
+    @Test
+    public void descriptionCannotBeBlank() {
+
+        Money debitAmount = new Money(USD, 1000);
+        Money creditAmount = new Money(USD, 1000);
+        Posting postingOne = new Posting("cash", debitAmount, DEBIT);
+        Posting postingTwo = new Posting("sales", creditAmount, CREDIT);
+
+        InvalidEntryException exception = assertThrows(InvalidEntryException.class, () ->
+                new JournalEntry(" ", List.of(postingOne, postingTwo))
+        );
+        assertEquals("Description cannot be blank", exception.getMessage());
     }
 
     @Test
@@ -30,7 +58,7 @@ public class JournalEntryTest {
         Posting postingOne = new Posting("cash", debitAmount, DEBIT);
         Posting postingTwo = new Posting("sales", creditAmount, CREDIT);
 
-        UnbalancedEntryException result = assertThrows(UnbalancedEntryException.class, () -> new JournalEntry(List.of(postingOne, postingTwo)));
+        UnbalancedEntryException result = assertThrows(UnbalancedEntryException.class, () -> new JournalEntry("test description", List.of(postingOne, postingTwo)));
         assertEquals("Entry is unbalanced in USD - Debits: 1000 do not equal Credits: 900", result.getMessage());
 
     }
@@ -45,7 +73,7 @@ public class JournalEntryTest {
         Posting postingFees = new Posting("fees", feesAmount, DEBIT);
         Posting postingCredit = new Posting("sales", creditAmount, CREDIT);
 
-        JournalEntry journalEntry = new JournalEntry(List.of(postingDebit, postingFees, postingCredit));
+        JournalEntry journalEntry = new JournalEntry("test description", List.of(postingDebit, postingFees, postingCredit));
         assertEquals(3, journalEntry.postings().size());
 
     }
@@ -63,7 +91,7 @@ public class JournalEntryTest {
         Posting postingDebitJPY = new Posting("cash", debitAmountJPY, DEBIT);
         Posting postingCreditJPY = new Posting("sales", creditAmountJPY, CREDIT);
 
-        JournalEntry journalEntry = new JournalEntry(List.of(postingDebitGBP, postingCreditGBP,  postingDebitJPY,  postingCreditJPY));
+        JournalEntry journalEntry = new JournalEntry("test description", List.of(postingDebitGBP, postingCreditGBP,  postingDebitJPY,  postingCreditJPY));
         assertEquals(4, journalEntry.postings().size());
 
     }
@@ -76,7 +104,7 @@ public class JournalEntryTest {
         Posting postingDebit = new Posting("cash", debitAmount, DEBIT);
         Posting postingCredit = new Posting("sales", creditAmount, CREDIT);
 
-        UnbalancedEntryException result = assertThrows(UnbalancedEntryException.class, () -> new JournalEntry(List.of(postingDebit, postingCredit)));
+        UnbalancedEntryException result = assertThrows(UnbalancedEntryException.class, () -> new JournalEntry("test description", List.of(postingDebit, postingCredit)));
         assertEquals("Entry is unbalanced in USD - Debits: 1000 do not equal Credits: 0", result.getMessage());
 
     }
@@ -89,7 +117,7 @@ public class JournalEntryTest {
         Posting postingDebit = new Posting("cash", debitAmount, DEBIT);
         Posting postingCredit = new Posting("sales", creditAmount, CREDIT);
 
-        UnbalancedEntryException result = assertThrows(UnbalancedEntryException.class, () -> new JournalEntry(List.of(postingDebit, postingCredit)));
+        UnbalancedEntryException result = assertThrows(UnbalancedEntryException.class, () -> new JournalEntry("test description", List.of(postingDebit, postingCredit)));
         assertEquals("Entry is unbalanced in GBP - Debits: 1000 do not equal Credits: 0", result.getMessage());
 
     }
@@ -97,7 +125,7 @@ public class JournalEntryTest {
     @Test
     public void anEntryMustHavePostings() {
 
-        InvalidEntryException result = assertThrows(InvalidEntryException.class, () -> new JournalEntry(List.of()));
+        InvalidEntryException result = assertThrows(InvalidEntryException.class, () -> new JournalEntry("test description", List.of()));
         assertEquals("Entry has no postings", result.getMessage());
 
     }
@@ -113,7 +141,7 @@ public class JournalEntryTest {
         ArrayList<Posting> postings = new ArrayList<>();
         postings.add(postingDebit);
         postings.add(postingCredit);
-        JournalEntry journalEntry = new JournalEntry(postings);
+        JournalEntry journalEntry = new JournalEntry("test description", postings);
         postings.add(postingDebit);
 
         assertEquals(2, journalEntry.postings().size());
@@ -130,12 +158,10 @@ public class JournalEntryTest {
         ArrayList<Posting> postings = new ArrayList<>();
         postings.add(postingDebit);
         postings.add(postingCredit);
-        JournalEntry journalEntry = new JournalEntry(postings);
+        JournalEntry journalEntry = new JournalEntry("test description", postings);
 
         assertThrows(UnsupportedOperationException.class, () -> journalEntry.postings().add(postingDebit));
-
     }
-
 
 
 }
