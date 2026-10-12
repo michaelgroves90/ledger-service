@@ -27,7 +27,11 @@ public class AccountRepository {
         return jdbc.sql("SELECT id, type FROM accounts where id = :id")
                 .param("id", id)
                 .query((rs, rowNum) ->
-                        new Account(rs.getString("id"), AccountType.valueOf(rs.getString("type"))))
+                        new Account(
+                                rs.getString("id"),
+                                AccountType.valueOf(rs.getString("type"))
+                        )
+                )
                 .optional();
     }
 
